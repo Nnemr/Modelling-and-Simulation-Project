@@ -12,28 +12,24 @@ import java.util.Scanner;
  * @author ASUS
  */
 public class Queue {
-    public static Teller [] tellers = new Teller[2];
+    public Teller [] tellers = new Teller[2];
     public Range []range1, range2;
     int [] serviceTime, interArrival;
-    public static int [][] prob;
+    public int [][] prob;
     static String [] types= {"Good", "Fair", "Poor"};
-    public static boolean checkCumulative(double []p){
+    public boolean checkCumulative(double []p, int maxLength){
          double csum   =0;
-        int maxLength = -1;
         for(double d:p){
             csum+=d;
-            String []s = Double.toString(d).split("\\.");
-            maxLength= Math.max(maxLength, s[1].length());
         }
         if(csum <1)
             return false;
-        prob = new int[p.length][2];
         int t = 0;
         for(int i = 0; i < p.length; ++i){
-            prob[i][0] =t;
+            range1[i].first=t;
             t += (p[i] *Math.pow(10, maxLength+1));
-            prob[i][1] = t -1;
-            System.out.println(prob[i][0] + " " + prob[i][1]);
+            range1[i].second = t -1;
+            System.out.println(range1[i].first + " " +range1[i].second);
         }
         return true;
     }
@@ -53,8 +49,9 @@ public class Queue {
     }
     public static ArrayList<Customer> finalTable = new ArrayList<Customer>();
     public static void main(String[] args) {
-        tellers[0] = new Teller();
-        tellers[1] = new Teller();
+        Queue system= new Queue();
+         system.tellers[0] = new Teller();
+        system.tellers[1] = new Teller();
         Queue q = new Queue();
         int n;
 //        int numberOfJobs;
@@ -68,20 +65,20 @@ public class Queue {
            int randomValue = q.serviceTimeSearch(serviceRandomValue);
            newJob.setInterArrivalTime(i==0? 0:q.interArrivalSearch(interArrivalRandomValue));
            newJob.setArrivalTime(i==0? 0: finalTable.get(i-1).getArrivalTime() + randomValue);
-           if(tellers[0].isBusy(newJob.getArrivalTime())){
+           if(system.tellers[0].isBusy(newJob.getArrivalTime())){
                servedInside=1;
            }
             newJob.setServiceTime(randomValue);
             //newJob.setTimeServiceBegin(i==0? 0:Math.max(newJob.getArrivalTime(),finalTable.get(i-1).getTimeServiceEnds()));
-            newJob.setTimeServiceBegin(Math.max(newJob.getArrivalTime(), tellers[servedInside].lastServed));
-            tellers[servedInside].lastServed =newJob.getTimeServiceEnds();
-            tellers[servedInside].addCustomer(newJob);
-            tellers[servedInside].idleTimes.add(i==0? 0: Math.max(0, newJob.getArrivalTime() - tellers[servedInside].lastServed));
-             System.out.println(newJob +" "+ servedInside + " " + tellers[servedInside].lastServed);
+            newJob.setTimeServiceBegin(Math.max(newJob.getArrivalTime(), system.tellers[servedInside].lastServed));
+            system.tellers[servedInside].lastServed =newJob.getTimeServiceEnds();
+            system.tellers[servedInside].addCustomer(newJob);
+            system.tellers[servedInside].idleTimes.add(i==0? 0: Math.max(0, newJob.getArrivalTime() - system.tellers[servedInside].lastServed));
+             System.out.println(newJob +" "+ servedInside + " " + system.tellers[servedInside].lastServed);
        // newJob.setWaitingTime(newJob.getTimeServiceBegin()- newJob.getArrivalTime());
             //newJob.setTimeServiceEnds(newJob.timeServiceBegin + newJob.serviceTime);
            // newJob.idleTime = (i==0? 0: Math.max(newJob.arrivalTime - finalTable.get(i-1).getTimeServiceEnds(),0));
-            tellers[servedInside].addCustomer(newJob);
+            system.tellers[servedInside].addCustomer(newJob);
             finalTable.add(newJob);
          }
     }

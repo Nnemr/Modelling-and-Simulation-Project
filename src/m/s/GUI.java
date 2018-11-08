@@ -17,6 +17,7 @@ public class GUI extends javax.swing.JFrame {
     double [] probabilities;
     public GUI() {
         initComponents();
+        system = new Queue();
     }
     public GUI(Queue queue, int []interval, double [] probabilities){
         initComponents();
@@ -49,7 +50,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel2.setText("No. of Runs");
 
-        interArrivalTable.setText("Insert Inter-Arrival Table");
+        interArrivalTable.setText("Inter-Arrival Table");
         interArrivalTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 interArrivalTableActionPerformed(evt);
@@ -70,29 +71,28 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(156, 156, 156)
-                        .addComponent(jButton1))
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(interArrivalTable)
-                        .addGap(55, 55, 55)
-                        .addComponent(serviceTable)))
-                .addGap(58, 58, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(33, 33, 33)
+                        .addComponent(interArrivalTable)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(serviceTable)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(72, 72, 72))
+                .addGap(30, 30, 30))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(149, 149, 149)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(57, 57, 57)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
@@ -100,13 +100,13 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54)
+                .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(interArrivalTable, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(interArrivalTable)
                     .addComponent(serviceTable))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
                 .addComponent(jButton1)
-                .addContainerGap())
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
@@ -115,7 +115,7 @@ public class GUI extends javax.swing.JFrame {
     private void interArrivalTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interArrivalTableActionPerformed
          try{
         Integer input = Integer.parseInt(JOptionPane.showInputDialog(this, "Enter the size of the interval"));
-        ServiceTimeTable table = new ServiceTimeTable(system, input);
+        TimeTable table = new TimeTable(system, input,true);
         table.setVisible(true);
         this.dispose();
         }catch(Exception e){
@@ -126,7 +126,7 @@ public class GUI extends javax.swing.JFrame {
     private void serviceTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceTableActionPerformed
  try{
         Integer input = Integer.parseInt(JOptionPane.showInputDialog(this, "Enter the size of the interval"));
-        ServiceTimeTable table = new ServiceTimeTable(system, input);
+        TimeTable table = new TimeTable(system, input, false);
         table.setVisible(true);
         this.dispose();
         }catch(Exception e){
